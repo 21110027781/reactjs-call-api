@@ -1,10 +1,17 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 class ProductItem extends Component {
+
+	onDelete = (id) => {
+		if(confirm('Bạn có muốn xóa không?')){ // eslint-disable-line
+			this.props.onDelete(id);
+		}
+	}
 	render() {
 		var { product, index } = this.props;
-		var statusName = product.state ? 'Còn hàng' : 'Hết hàng';
-		var statusClass = product.state ? 'info' : 'warning';
+		var statusName = product.status ? 'Còn hàng' : 'Hết hàng';
+		var statusClass = product.status ? 'info' : 'warning';
 		return (
 			<tr>
 				<td>{index + 1}</td>
@@ -16,8 +23,17 @@ class ProductItem extends Component {
 				</td>
 				<td>
 					<span className="input-group-btn">
-						<button type="button" className="btn btn-success">Sửa</button>
-						<button type="button" className="btn btn-danger">Xóa</button>
+						<Link 
+							to={`/product/${product.id}/edit`}
+							type="button" 
+							className="btn btn-success"
+
+						>Sửa</Link>
+						<button 
+							type="button" 
+							className="btn btn-danger"
+							onClick={() => this.onDelete(product.id)}
+						>Xóa</button>
 					</span>
 				</td>
 			</tr>
